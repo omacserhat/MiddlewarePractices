@@ -93,20 +93,29 @@ namespace MiddlewarePractices
             //ilk önce programý çalýþtýrdýðýmýzda use middleware tetiklendi yazar.
             //test'e bir istek geldiðinde response olarak (test middleware tetiklendi) yazar.
 
-            app.Use(async (context, next) =>
-            {
-                Console.WriteLine("Use Middleware tetiklendi");
+            //app.Use(async (context, next) =>
+            //{
+            //    Console.WriteLine("Use Middleware tetiklendi");
 
-                await next.Invoke();
-            });
+            //    await next.Invoke();
+            //});
 
 
-            app.Map("/test", internalApp =>
-             internalApp.Run(async context =>
-            {
-                Console.WriteLine("/test middleware tetiklendi.");
-                await context.Response.WriteAsync("/test middleware tetiklendi.");
-            }));
+            //app.Map("/test", internalApp =>
+            // internalApp.Run(async context =>
+            //{
+            //    Console.WriteLine("/test middleware tetiklendi.");
+            //    await context.Response.WriteAsync("/test middleware tetiklendi.");
+            //}));
+
+            //Get isteði yapýldýðýnda bu middleware tetiklenecek.
+            //app.MapWhen(x => x.Request.Method == "GET", internalApp =>
+            //{
+            //    internalApp.Run(async context =>
+            //    {
+            //        await context.Response.WriteAsync("MapWhen ile Middleware Tetiklendi.");
+            //    });
+            //});
 
 
             app.UseEndpoints(endpoints =>
