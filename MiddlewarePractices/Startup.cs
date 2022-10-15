@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -59,30 +60,53 @@ namespace MiddlewarePractices
 
             //app.Use
             //1 baþladý,2 baþladý,3 baþladý -- 3 sonlandýrýldý,2 sonlandýrýldý, 1 sonlandýrýld þeklibde çalýþýr.
+
+
+            //app.Use(async (context, next) =>
+            //{
+            //    Console.WriteLine("Middleware 1 baþladý.");
+
+            //    await next.Invoke();
+
+            //    Console.WriteLine("Middleware 1 sonlandýrýlýyor.");
+            //});
+
+            //app.Use(async (context, next) =>
+            //{
+            //    Console.WriteLine("Middleware 2 baþladý.");
+
+            //    await next.Invoke();
+
+            //    Console.WriteLine("Middleware 2 sonlandýrýlýyor.");
+            //});
+
+            //app.Use(async (context, next) =>
+            //{
+            //    Console.WriteLine("Middleware 3 baþladý.");
+
+            //    await next.Invoke();
+
+            //    Console.WriteLine("Middleware 3 sonlandýrýlýyor.");
+            //});
+
+
+            //ilk önce programý çalýþtýrdýðýmýzda use middleware tetiklendi yazar.
+            //test'e bir istek geldiðinde response olarak (test middleware tetiklendi) yazar.
+
             app.Use(async (context, next) =>
             {
-                Console.WriteLine("Middleware 1 baþladý.");
+                Console.WriteLine("Use Middleware tetiklendi");
 
                 await next.Invoke();
-
-                Console.WriteLine("Middleware 1 sonlandýrýlýyor.");
             });
-            app.Use(async (context, next) =>
+
+
+            app.Map("/test", internalApp =>
+             internalApp.Run(async context =>
             {
-                Console.WriteLine("Middleware 2 baþladý.");
-
-                await next.Invoke();
-
-                Console.WriteLine("Middleware 2 sonlandýrýlýyor.");
-            });
-            app.Use(async (context, next) =>
-            {
-                Console.WriteLine("Middleware 3 baþladý.");
-
-                await next.Invoke();
-
-                Console.WriteLine("Middleware 3 sonlandýrýlýyor.");
-            });
+                Console.WriteLine("/test middleware tetiklendi.");
+                await context.Response.WriteAsync("/test middleware tetiklendi.");
+            }));
 
 
             app.UseEndpoints(endpoints =>
