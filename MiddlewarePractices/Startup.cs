@@ -52,12 +52,37 @@ namespace MiddlewarePractices
 
 
             //app.Run()
-
             //Run'da 1. çalýþýr 2.sinde Kýsa devre olur.
-            app.Run(async context => Console.WriteLine("Middleware 1."));
-            app.Run(async context => Console.WriteLine("Middleware 2."));
+            //app.Run(async context => Console.WriteLine("Middleware 1."));
+            //app.Run(async context => Console.WriteLine("Middleware 2."));
 
-            
+
+            //app.Use
+            //1 baþladý,2 baþladý,3 baþladý -- 3 sonlandýrýldý,2 sonlandýrýldý, 1 sonlandýrýld þeklibde çalýþýr.
+            app.Use(async (context, next) =>
+            {
+                Console.WriteLine("Middleware 1 baþladý.");
+
+                await next.Invoke();
+
+                Console.WriteLine("Middleware 1 sonlandýrýlýyor.");
+            });
+            app.Use(async (context, next) =>
+            {
+                Console.WriteLine("Middleware 2 baþladý.");
+
+                await next.Invoke();
+
+                Console.WriteLine("Middleware 2 sonlandýrýlýyor.");
+            });
+            app.Use(async (context, next) =>
+            {
+                Console.WriteLine("Middleware 3 baþladý.");
+
+                await next.Invoke();
+
+                Console.WriteLine("Middleware 3 sonlandýrýlýyor.");
+            });
 
 
             app.UseEndpoints(endpoints =>
