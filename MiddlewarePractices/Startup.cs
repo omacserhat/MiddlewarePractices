@@ -50,6 +50,16 @@ namespace MiddlewarePractices
 
             app.UseAuthorization();
 
+
+            //app.Run()
+
+            //Run'da 1. çalýþýr 2.sinde Kýsa devre olur.
+            app.Run(async context => Console.WriteLine("Middleware 1."));
+            app.Run(async context => Console.WriteLine("Middleware 2."));
+
+            
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
